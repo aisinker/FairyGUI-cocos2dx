@@ -4,8 +4,11 @@
 #include "FairyGUIMacros.h"
 #include "cocos2d.h"
 #include "GLoader.h"
+#include "GRootHolder.h"
 
 NS_FGUI_BEGIN
+
+class GRootHolder;
 
 class DragDropManager
 {
@@ -27,6 +30,7 @@ private:
 
     GLoader* _agent;
     cocos2d::Value _sourceData;
+    GRootHolder* _gRootHolder;
 };
 
 NS_FGUI_END

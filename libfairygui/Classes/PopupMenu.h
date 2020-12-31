@@ -11,6 +11,7 @@ class GObject;
 class GComponent;
 class GButton;
 class GList;
+class GRootHolder;
 
 class PopupMenu : public cocos2d::Ref
 {
@@ -48,6 +49,8 @@ protected:
 private:
     void onClickItem(EventContext* context);
     void onEnter(EventContext* context);
+
+    GRootHolder* _gRootHolder;
 };
 
 NS_FGUI_END

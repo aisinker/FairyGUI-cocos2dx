@@ -5,10 +5,12 @@
 #include "FairyGUIMacros.h"
 #include "GComponent.h"
 #include "GList.h"
+#include "GRootHolder.h"
 
 NS_FGUI_BEGIN
 
 class GTextField;
+class GRootHolder;
 
 class GComboBox : public GComponent
 {
@@ -81,6 +83,8 @@ protected:
     std::vector<std::string> _icons;
     std::vector<std::string> _values;
 
+
+
 private:
 
     void onClickItem(EventContext* context);
@@ -95,6 +99,8 @@ private:
     GController* _buttonController;
     bool _down;
     bool _over;
+
+    GRootHolder* _gRootHolder;
 };
 
 NS_FGUI_END

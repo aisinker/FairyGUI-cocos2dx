@@ -1,5 +1,6 @@
 #include "Window.h"
 #include "GRoot.h"
+#include "GRootHolder.h"
 #include "UIPackage.h"
 #include "UIConfig.h"
 
@@ -16,8 +17,12 @@ Window::Window() :
     _contentArea(nullptr),
     _modal(false),
     _inited(false),
-    _loading(false)
+    _loading(false),
+    _gRootHolder(nullptr)
 {
+    _gRootHolder->getCurrentInstance();
+    _gRootHolder->retain();
+
     _bringToFontOnClick = UIConfig::bringWindowToFrontOnClick;
 }
 
@@ -28,6 +33,8 @@ Window::~Window()
     CC_SAFE_RELEASE(_closeButton);
     CC_SAFE_RELEASE(_dragArea);
     CC_SAFE_RELEASE(_modalWaitPane);
+
+    CC_SAFE_RELEASE_NULL(_gRootHolder);
 }
 
 void Window::handleInit()

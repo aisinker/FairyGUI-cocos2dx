@@ -11,6 +11,7 @@ class GComponent;
 class TransitionItem;
 class GTweener;
 class ByteBuffer;
+class GRootHolder;
 
 class Transition : public cocos2d::Ref
 {
@@ -87,6 +88,8 @@ private:
     float _timeScale;
     float _startTime;
     float _endTime;
+
+    GRootHolder* _gRootHolder;
 };
 
 NS_FGUI_END

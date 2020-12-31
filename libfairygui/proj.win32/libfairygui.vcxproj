@@ -59,6 +59,7 @@
     <ClInclude Include="..\Classes\GProgressBar.h" />
     <ClInclude Include="..\Classes\GRichTextField.h" />
     <ClInclude Include="..\Classes\GRoot.h" />
+    <ClInclude Include="..\Classes\GRootHolder.h" />
     <ClInclude Include="..\Classes\GScrollBar.h" />
     <ClInclude Include="..\Classes\GSlider.h" />
     <ClInclude Include="..\Classes\GTextField.h" />
@@ -138,6 +139,7 @@
     <ClCompile Include="..\Classes\GProgressBar.cpp" />
     <ClCompile Include="..\Classes\GRichTextField.cpp" />
     <ClCompile Include="..\Classes\GRoot.cpp" />
+    <ClCompile Include="..\Classes\GRootHolder.cpp" />
     <ClCompile Include="..\Classes\GScrollBar.cpp" />
     <ClCompile Include="..\Classes\GSlider.cpp" />
     <ClCompile Include="..\Classes\GTextField.cpp" />
@@ -171,6 +173,11 @@
     <ClCompile Include="..\Classes\utils\WeakPtr.cpp" />
     <ClCompile Include="..\Classes\Window.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\cocos2d\cocos\2d\libcocos2d.vcxproj">
+      <Project>{98a51ba8-fc3a-415b-ac8f-8c7bd464e93e}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{187d3e60-961a-41ee-bc18-c510a431d22e}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -185,7 +192,7 @@
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '12.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v120_xp</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '14.0'">v140</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '14.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v140_xp</PlatformToolset>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -201,13 +208,13 @@
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\Examples\cocos2d\cocos\2d\cocos2dx.props" />
-    <Import Project="..\..\Examples\cocos2d\cocos\2d\cocos2d_headers.props" />
+    <Import Project="..\..\..\cocos2d\cocos\2d\cocos2dx.props" />
+    <Import Project="..\..\..\cocos2d\cocos\2d\cocos2d_headers.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\Examples\cocos2d\cocos\2d\cocos2dx.props" />
-    <Import Project="..\..\Examples\cocos2d\cocos\2d\cocos2d_headers.props" />
+    <Import Project="..\..\..\cocos2d\cocos\2d\cocos2dx.props" />
+    <Import Project="..\..\..\cocos2d\cocos\2d\cocos2d_headers.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

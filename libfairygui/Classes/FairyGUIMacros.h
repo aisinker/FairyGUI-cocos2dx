@@ -29,7 +29,7 @@ if (!cocos2d::Director::getInstance()->getScheduler()->isScheduled(CC_SCHEDULE_S
 #define CALL_PER_FRAME_CANCEL(__TYPE__,__FUNC__) \
 cocos2d::Director::getInstance()->getScheduler()->unschedule(CC_SCHEDULE_SELECTOR(__TYPE__::__FUNC__), this)
 
-#define UIRoot GRoot::getInstance()
+#define UIRoot _gRootHolder->getGRoot()
 
 #include "FieldTypes.h"
 

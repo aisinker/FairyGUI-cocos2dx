@@ -272,8 +272,11 @@ Transition::Transition(GComponent* owner)
     _autoPlayDelay(0),
     _timeScale(1),
     _startTime(0),
-    _endTime(0)
+    _endTime(0),
+    _gRootHolder(nullptr)
 {
+    _gRootHolder = GRootHolder::getCurrentInstance();
+    _gRootHolder->retain();
 }
 
 Transition::~Transition()
@@ -286,6 +289,8 @@ Transition::~Transition()
 
     _playing = false;
     _onComplete = nullptr;
+
+    CC_SAFE_RELEASE_NULL(_gRootHolder);
 }
 
 void Transition::play(PlayCompleteCallback callback)

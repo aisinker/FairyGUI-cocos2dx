@@ -16,14 +16,18 @@ GComboBox::GComboBox()
       _selectionController(nullptr),
       _itemsUpdated(true),
       _selectedIndex(-1),
-      popupDirection(PopupDirection::AUTO)
+      popupDirection(PopupDirection::AUTO),
+      _gRootHolder(nullptr)
 {
+    _gRootHolder = GRootHolder::getCurrentInstance();
+    _gRootHolder->retain();
     visibleItemCount = UIConfig::defaultComboBoxVisibleItemCount;
 }
 
 GComboBox::~GComboBox()
 {
     CC_SAFE_RELEASE(_dropdown);
+    CC_SAFE_RELEASE_NULL(_gRootHolder);
 }
 
 const std::string& GComboBox::getTitle() const

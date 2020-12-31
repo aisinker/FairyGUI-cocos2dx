@@ -8,8 +8,12 @@ USING_NS_CC;
 DragDropManager* DragDropManager::_inst = nullptr;
 
 DragDropManager::DragDropManager() :
-    _agent(nullptr)
+    _agent(nullptr),
+    _gRootHolder(nullptr)
 {
+    _gRootHolder = GRootHolder::getCurrentInstance();
+    _gRootHolder->retain();
+
     _agent = (GLoader*)UIObjectFactory::newObject(ObjectType::LOADER);
     _agent->retain();
     _agent->setTouchable(false);
@@ -25,6 +29,7 @@ DragDropManager::DragDropManager() :
 DragDropManager::~DragDropManager()
 {
     CC_SAFE_RELEASE(_agent);
+    CC_SAFE_RELEASE_NULL(_gRootHolder);
 }
 
 DragDropManager* DragDropManager::getInstance()

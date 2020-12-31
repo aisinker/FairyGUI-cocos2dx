@@ -40,8 +40,12 @@ InputProcessor::InputProcessor(GComponent* owner) :
     _keyModifiers(0),
     _mouseListener(nullptr),
     _touchListener(nullptr),
-    _keyboardListener(nullptr)
+    _keyboardListener(nullptr),
+    _gRootHolder(nullptr)
 {
+    _gRootHolder = GRootHolder::getCurrentInstance();
+    _gRootHolder->retain();
+
     _owner = owner;
     _recentInput._inputProcessor = this;
 
@@ -84,6 +88,8 @@ InputProcessor::~InputProcessor()
 
     for (auto &ti : _touches)
         delete ti;
+
+    CC_SAFE_RELEASE_NULL(_gRootHolder);
 }
 
 cocos2d::Vec2 InputProcessor::getTouchPosition(int touchId)

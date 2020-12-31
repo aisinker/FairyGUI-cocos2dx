@@ -1,5 +1,6 @@
 #include "PopupMenu.h"
 #include "GRoot.h"
+#include "GRootHolder.h"
 #include "UIPackage.h"
 #include "GList.h"
 #include "GButton.h"
@@ -26,13 +27,17 @@ PopupMenu* PopupMenu::create(const std::string & resourceURL)
 
 PopupMenu::PopupMenu() :
     _contentPane(nullptr),
-    _list(nullptr)
+    _list(nullptr),
+    _gRootHolder(nullptr)
 {
+    _gRootHolder = GRootHolder::getCurrentInstance();
+    _gRootHolder->retain();
 }
 
 PopupMenu::~PopupMenu()
 {
     CC_SAFE_RELEASE(_contentPane);
+    CC_SAFE_RELEASE_NULL(_gRootHolder);
 }
 
 bool PopupMenu::init(const std::string & resourceURL)

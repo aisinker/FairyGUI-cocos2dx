@@ -15,10 +15,10 @@ bool GRoot::_soundEnabled = true;
 float GRoot::_soundVolumeScale = 1.0f;
 int GRoot::contentScaleLevel = 0;
 
-GRoot* GRoot::create(Scene* scene, int zOrder)
+GRoot* GRoot::create(Scene* scene)
 {
     GRoot* pRet = new (std::nothrow) GRoot();
-    if (pRet && pRet->initWithScene(scene, zOrder))
+    if (pRet && pRet->initWithScene(scene))
     {
         pRet->autorelease();
         return pRet;
@@ -514,23 +514,17 @@ void GRoot::handlePositionChanged()
 void GRoot::onEnter()
 {
     GComponent::onEnter();
-    _inst = this;
 }
 
 void GRoot::onExit()
 {
     GComponent::onExit();
-    if (_inst == this)
-        _inst = nullptr;
 }
 
-bool GRoot::initWithScene(cocos2d::Scene* scene, int zOrder)
+bool GRoot::initWithScene(cocos2d::Scene* scene)
 {
     if (!GComponent::init())
         return false;
-
-    if (_inst == nullptr)
-        _inst = this;
 
     _inputProcessor = new InputProcessor(this);
     _inputProcessor->setCaptureCallback(CC_CALLBACK_1(GRoot::onTouchEvent, this));
@@ -539,8 +533,6 @@ bool GRoot::initWithScene(cocos2d::Scene* scene, int zOrder)
     _windowSizeListener = Director::getInstance()->getEventDispatcher()->addCustomEventListener(GLViewImpl::EVENT_WINDOW_RESIZED, CC_CALLBACK_0(GRoot::onWindowSizeChanged, this));
 #endif
     onWindowSizeChanged();
-
-    scene->addChild(_displayObject, zOrder);
 
     return true;
 }

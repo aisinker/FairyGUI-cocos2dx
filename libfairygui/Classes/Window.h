@@ -7,6 +7,8 @@
 
 NS_FGUI_BEGIN
 
+class GRootHolder;
+
 class IUISource : public cocos2d::Ref
 {
 public:
@@ -92,6 +94,7 @@ private:
     cocos2d::Vector<IUISource*> _uiSources;
     bool _inited;
     bool _loading;
+    GRootHolder* _gRootHolder;
 };
 
 NS_FGUI_END

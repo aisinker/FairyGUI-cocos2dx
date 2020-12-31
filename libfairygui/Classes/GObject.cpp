@@ -2,6 +2,7 @@
 #include "GGroup.h"
 #include "GList.h"
 #include "GRoot.h"
+#include "GRootHolder.h"
 #include "UIConfig.h"
 #include "UIPackage.h"
 #include "display/FUISprite.h"
@@ -46,8 +47,12 @@ GObject::GObject() : _scale{1, 1},
                      _data(nullptr),
                      _touchDisabled(false),
                      _alignToBL(false),
-                     _weakPtrRef(0)
+                     _weakPtrRef(0),
+                     _gRootHolder(nullptr)
 {
+    _gRootHolder = GRootHolder::getCurrentInstance();
+    _gRootHolder->retain();
+
     static uint64_t _gInstanceCounter = 1;
     _uid = _gInstanceCounter++;
     std::stringstream ss;
@@ -75,6 +80,8 @@ GObject::~GObject()
 
     if (_weakPtrRef > 0)
         WeakPtr::markDisposed(this);
+
+    CC_SAFE_RELEASE_NULL(_gRootHolder);
 }
 
 bool GObject::init()
