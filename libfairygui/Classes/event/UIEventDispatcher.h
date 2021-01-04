@@ -46,8 +46,8 @@ public:
     UIEventDispatcher();
     virtual ~UIEventDispatcher();
 
-    void addEventListener(int eventType, const EventCallback& callback) { return addEventListener(eventType, callback, EventTag::None); }
-    void addEventListener(int eventType, const EventCallback& callback, const EventTag& tag);
+    void addEventListener(int eventType, const EventCallback& callback, int luaFunctionRefId = 0) { return addEventListener(eventType, callback, EventTag::None, luaFunctionRefId); }
+    void addEventListener(int eventType, const EventCallback& callback, const EventTag& tag, int luaFunctionRefId = 0);
     void removeEventListener(int eventType) { removeEventListener(eventType, EventTag::None); }
     void removeEventListener(int eventType, const EventTag& tag);
     void removeEventListeners();
@@ -69,6 +69,7 @@ private:
         int eventType;
         EventTag tag;
         int dispatching;
+        int luaFunctionRefId;
     };
     std::vector<EventCallbackItem*> _callbacks;
     int _dispatching;
