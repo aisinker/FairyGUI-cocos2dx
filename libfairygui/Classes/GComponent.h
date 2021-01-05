@@ -101,7 +101,7 @@ public:
 
     bool _buildingDisplayList;
 
-    void setOnConstructForGComponent(OnConstructCallback callback);
+    void setOnConstruct(OnConstructCallback callback);
 
 protected:
     virtual void constructExtension(ByteBuffer* buffer);
