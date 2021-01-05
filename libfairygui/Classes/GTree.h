@@ -36,7 +36,10 @@ public:
     void collapseAll(GTreeNode* folderNode);
 
     TreeNodeRenderFunction treeNodeRender;
+    void setTreeNodeRender(TreeNodeRenderFunction treeNodeRender);
+
     TreeNodeWillExpandFunction treeNodeWillExpand;
+    void setTreeNodeWillExpand(TreeNodeWillExpandFunction treeNodeWillExpand);
 
 protected:
     virtual void handleInit() override;

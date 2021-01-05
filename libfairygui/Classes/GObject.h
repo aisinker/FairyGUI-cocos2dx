@@ -138,8 +138,8 @@ public:
     bool onStage() const;
     void removeFromParent();
 
-    void addClickListener(const EventCallback& callback, int luaFunctionRefId = 0) { addEventListener(UIEventType::Click, callback, luaFunctionRefId); }
-    void addClickListener(const EventCallback& callback, const EventTag& tag, int luaFunctionRefId = 0) { addEventListener(UIEventType::Click, callback, tag, luaFunctionRefId); }
+    void addClickListener(const EventCallback& callback) { addEventListener(UIEventType::Click, callback); }
+    void addClickListener(const EventCallback& callback, const EventTag& tag) { addEventListener(UIEventType::Click, callback, tag); }
     void removeClickListener(const EventTag& tag) { removeEventListener(UIEventType::Click, tag); }
 
     virtual cocos2d::Value getProp(ObjectPropID propId);

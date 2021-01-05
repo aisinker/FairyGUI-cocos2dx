@@ -10,7 +10,6 @@ USING_NS_CC;
 using namespace cocos2d::experimental;
 #endif
 
-GRoot* GRoot::_inst = nullptr;
 bool GRoot::_soundEnabled = true;
 float GRoot::_soundVolumeScale = 1.0f;
 int GRoot::contentScaleLevel = 0;

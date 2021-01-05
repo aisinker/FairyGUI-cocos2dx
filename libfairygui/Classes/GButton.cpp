@@ -31,7 +31,7 @@ GButton::GButton() : _mode(ButtonMode::COMMON),
                      _changeStateOnClick(true),
                      _gRootHolder(nullptr)
 {
-    _gRootHolder = GRootHolder::getCurrentInstance();
+    _gRootHolder = GRootHolder::getGlobalInstance();
     _gRootHolder->retain();
 
     _sound = UIConfig::buttonSound;

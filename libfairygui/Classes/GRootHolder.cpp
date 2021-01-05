@@ -21,7 +21,7 @@ GRootHolder* GRootHolder::create()
     }
 }
 
-void GRootHolder::setCurrentInstance(GRootHolder* rootHolder) {
+void GRootHolder::setGlobalInstance(GRootHolder* rootHolder) {
     if (_inst != nullptr) {
         CC_SAFE_RELEASE_NULL(_inst);
     }
@@ -29,9 +29,9 @@ void GRootHolder::setCurrentInstance(GRootHolder* rootHolder) {
     _inst->retain();
 }
 
-GRootHolder* GRootHolder::getCurrentInstance() {
+GRootHolder* GRootHolder::getGlobalInstance() {
     if (_inst == nullptr) {
-        GRootHolder::create()->asCurrentInstance();
+        GRootHolder::create()->asGlobalInstance();
     }
     return _inst;
 }
@@ -47,8 +47,8 @@ GRootHolder::~GRootHolder()
     }
 }
 
-void GRootHolder::asCurrentInstance() {
-    GRootHolder::setCurrentInstance(this);
+void GRootHolder::asGlobalInstance() {
+    GRootHolder::setGlobalInstance(this);
 }
 
 void GRootHolder::setGRoot(GRoot* gRoot)

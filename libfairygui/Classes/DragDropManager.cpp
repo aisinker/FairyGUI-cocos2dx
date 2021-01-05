@@ -11,7 +11,7 @@ DragDropManager::DragDropManager() :
     _agent(nullptr),
     _gRootHolder(nullptr)
 {
-    _gRootHolder = GRootHolder::getCurrentInstance();
+    _gRootHolder = GRootHolder::getGlobalInstance();
     _gRootHolder->retain();
 
     _agent = (GLoader*)UIObjectFactory::newObject(ObjectType::LOADER);

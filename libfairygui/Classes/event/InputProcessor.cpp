@@ -43,7 +43,7 @@ InputProcessor::InputProcessor(GComponent* owner) :
     _keyboardListener(nullptr),
     _gRootHolder(nullptr)
 {
-    _gRootHolder = GRootHolder::getCurrentInstance();
+    _gRootHolder = GRootHolder::getGlobalInstance();
     _gRootHolder->retain();
 
     _owner = owner;

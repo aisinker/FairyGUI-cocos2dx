@@ -10,13 +10,13 @@ class GRootHolder : public cocos2d::Ref
 {
 public:
     static GRootHolder* create();
-    static void setCurrentInstance(GRootHolder* rootHolder);
-    static GRootHolder* getCurrentInstance();
+    static void setGlobalInstance(GRootHolder* rootHolder);
+    static GRootHolder* getGlobalInstance();
 
     GRootHolder();
     virtual ~GRootHolder();
 
-    void asCurrentInstance();
+    void asGlobalInstance();
     void setGRoot(GRoot* gRoot);
     GRoot* getGRoot();
 private:

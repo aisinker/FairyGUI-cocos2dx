@@ -2,9 +2,6 @@
 #include "GComponent.h"
 #include "InputProcessor.h"
 #include "utils/WeakPtr.h"
-#include "tolua_fix.h"
-#include "CCLuaValue.h"
-#include "CCLuaEngine.h"
 
 USING_NS_CC;
 NS_FGUI_BEGIN
@@ -96,7 +93,7 @@ UIEventDispatcher::~UIEventDispatcher()
     removeEventListeners();
 }
 
-void UIEventDispatcher::addEventListener(int eventType, const EventCallback& callback, const EventTag& tag, int luaFunctionRefId)
+void UIEventDispatcher::addEventListener(int eventType, const EventCallback& callback, const EventTag& tag)
 {
     if (!tag.isNone())
     {
@@ -115,7 +112,6 @@ void UIEventDispatcher::addEventListener(int eventType, const EventCallback& cal
     item->eventType = eventType;
     item->tag = tag;
     item->dispatching = 0;
-    item->luaFunctionRefId = luaFunctionRefId;
     _callbacks.push_back(item);
 }
 
@@ -128,12 +124,6 @@ void UIEventDispatcher::removeEventListener(int eventType, const EventTag& tag)
     {
         if ((*it)->eventType == eventType && ((*it)->tag == tag || tag.isNone()))
         {
-            if ((*it)->luaFunctionRefId != 0) {
-                lua_State* tolua_S = LuaEngine::getInstance()->getLuaStack()->getLuaState();
-                toluafix_remove_function_by_refid(tolua_S, (*it)->luaFunctionRefId);
-                (*it)->luaFunctionRefId = 0;
-            }
-
             if (_dispatching > 0)
             {
                 (*it)->callback = nullptr;
@@ -157,24 +147,13 @@ void UIEventDispatcher::removeEventListeners()
 
     if (_dispatching > 0)
     {
-        for (auto it = _callbacks.begin(); it != _callbacks.end(); ++it) {
-            if ((*it)->luaFunctionRefId != 0) {
-                lua_State* tolua_S = LuaEngine::getInstance()->getLuaStack()->getLuaState();
-                toluafix_remove_function_by_refid(tolua_S, (*it)->luaFunctionRefId);
-                (*it)->luaFunctionRefId = 0;
-            }
+        for (auto it = _callbacks.begin(); it != _callbacks.end(); ++it)
             (*it)->callback = nullptr;
-        }    
     }
     else
     {
-        for (auto it = _callbacks.begin(); it != _callbacks.end(); it++) {
-            if ((*it)->luaFunctionRefId != 0) {
-                lua_State* tolua_S = LuaEngine::getInstance()->getLuaStack()->getLuaState();
-                toluafix_remove_function_by_refid(tolua_S, (*it)->luaFunctionRefId);
-            }
+        for (auto it = _callbacks.begin(); it != _callbacks.end(); it++)
             delete (*it);
-        }
         _callbacks.clear();
     }
 }
@@ -237,7 +216,7 @@ bool UIEventDispatcher::isDispatchingEvent(int eventType)
 void UIEventDispatcher::doDispatch(int eventType, EventContext* context)
 {
     retain();
-    
+
     _dispatching++;
     context->_sender = this;
     bool hasDeletedItems = false;

@@ -977,6 +977,16 @@ int GList::itemIndexToChildIndex(int index)
     }
 }
 
+void GList::setItemRenderer(ListItemRenderer itemRenderer) 
+{
+    this->itemRenderer = itemRenderer;
+}
+
+void GList::setItemProvider(ListItemProvider itemProvider)
+{
+    this->itemProvider = itemProvider;
+}
+
 void GList::setVirtual()
 {
     setVirtual(false);

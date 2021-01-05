@@ -50,7 +50,7 @@ GObject::GObject() : _scale{1, 1},
                      _weakPtrRef(0),
                      _gRootHolder(nullptr)
 {
-    _gRootHolder = GRootHolder::getCurrentInstance();
+    _gRootHolder = GRootHolder::getGlobalInstance();
     _gRootHolder->retain();
 
     static uint64_t _gInstanceCounter = 1;

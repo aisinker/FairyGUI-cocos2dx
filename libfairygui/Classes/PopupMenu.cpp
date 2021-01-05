@@ -30,7 +30,7 @@ PopupMenu::PopupMenu() :
     _list(nullptr),
     _gRootHolder(nullptr)
 {
-    _gRootHolder = GRootHolder::getCurrentInstance();
+    _gRootHolder = GRootHolder::getGlobalInstance();
     _gRootHolder->retain();
 }
 

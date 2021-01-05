@@ -99,9 +99,26 @@ public:
     virtual cocos2d::Vec2 getSnappingPosition(const cocos2d::Vec2& pt) override;
 
     ListItemRenderer itemRenderer;
+    void setItemRenderer(ListItemRenderer itemRenderer);
+
     ListItemProvider itemProvider;
+    void setItemProvider(ListItemProvider itemProvider);
+
     bool scrollItemToViewOnClick;
+    void setScrollItemToViewOnClick(bool scrollItemToViewOnClick) {
+        this->scrollItemToViewOnClick = scrollItemToViewOnClick;
+    }
+    bool getScrollItemToViewOnClick() {
+        return this->scrollItemToViewOnClick;
+    }
+
     bool foldInvisibleItems;
+    void setFoldInvisibleItems(bool foldInvisibleItems) {
+        this->foldInvisibleItems = foldInvisibleItems;
+    }
+    bool getFoldInvisibleItems() {
+        return this->foldInvisibleItems;
+    }
 
 protected:
     virtual void handleControllerChanged(GController* c) override;

@@ -20,7 +20,7 @@ Window::Window() :
     _loading(false),
     _gRootHolder(nullptr)
 {
-    _gRootHolder->getCurrentInstance();
+    _gRootHolder->getGlobalInstance();
     _gRootHolder->retain();
 
     _bringToFontOnClick = UIConfig::bringWindowToFrontOnClick;

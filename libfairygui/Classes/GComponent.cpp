@@ -25,7 +25,8 @@ _sortingChildCount(0),
 _applyingController(nullptr),
 _buildingDisplayList(false),
 _maskOwner(nullptr),
-_hitArea(nullptr)
+_hitArea(nullptr),
+_constructCallback(NULL)
 {
 }
 
@@ -1340,12 +1341,20 @@ void GComponent::constructFromResource(std::vector<GObject*>* objectPool, int po
     onConstruct();
 }
 
+void GComponent::setOnConstructForGComponent(OnConstructCallback callback)
+{
+    _constructCallback = callback;
+}
+
 void GComponent::constructExtension(ByteBuffer* buffer)
 {
 }
 
 void GComponent::onConstruct()
 {
+    if (_constructCallback != NULL) {
+        _constructCallback(this);
+    }
 }
 
 void GComponent::setup_afterAdd(ByteBuffer* buffer, int beginPos)

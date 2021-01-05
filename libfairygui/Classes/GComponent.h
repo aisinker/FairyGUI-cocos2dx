@@ -12,6 +12,8 @@
 
 NS_FGUI_BEGIN
 
+typedef std::function<void(GComponent* component)> OnConstructCallback;
+
 class GComponent : public GObject
 {
 public:
@@ -99,6 +101,8 @@ public:
 
     bool _buildingDisplayList;
 
+    void setOnConstructForGComponent(OnConstructCallback callback);
+
 protected:
     virtual void constructExtension(ByteBuffer* buffer);
     virtual void onConstruct();
@@ -143,6 +147,8 @@ private:
     GController* _applyingController;
 
     friend class ScrollPane;
+
+    OnConstructCallback _constructCallback;
 };
 
 NS_FGUI_END

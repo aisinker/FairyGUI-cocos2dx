@@ -88,6 +88,16 @@ void GTree::collapseAll(GTreeNode* folderNode)
     }
 }
 
+void GTree::setTreeNodeRender(TreeNodeRenderFunction treeNodeRender)
+{
+    this->treeNodeRender = treeNodeRender;
+}
+
+void GTree::setTreeNodeWillExpand(TreeNodeWillExpandFunction treeNodeWillExpand)
+{
+    this->treeNodeWillExpand = treeNodeWillExpand;
+}
+
 void GTree::createCell(GTreeNode* node)
 {
     const std::string& url = node->_resURL.empty() ? getDefaultItem() : node->_resURL;

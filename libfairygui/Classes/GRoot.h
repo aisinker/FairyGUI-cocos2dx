@@ -92,8 +92,6 @@ private:
 
     static bool _soundEnabled;
     static float _soundVolumeScale;
-
-    static GRoot* _inst;
 };
 
 NS_FGUI_END
