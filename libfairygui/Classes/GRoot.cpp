@@ -505,11 +505,6 @@ void GRoot::onTouchEvent(int eventType)
     }
 }
 
-void GRoot::handlePositionChanged()
-{
-    _displayObject->setPosition(0, _size.height);
-}
-
 void GRoot::onEnter()
 {
     GComponent::onEnter();

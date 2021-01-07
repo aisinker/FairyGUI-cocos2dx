@@ -64,7 +64,6 @@ public:
     static int contentScaleLevel;
 
 protected:
-    virtual void handlePositionChanged() override;
     virtual void onEnter() override;
     virtual void onExit() override;
 
