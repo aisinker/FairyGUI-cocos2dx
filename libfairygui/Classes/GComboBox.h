@@ -5,12 +5,11 @@
 #include "FairyGUIMacros.h"
 #include "GComponent.h"
 #include "GList.h"
-#include "GRootHolder.h"
 
 NS_FGUI_BEGIN
 
+class GRoot;
 class GTextField;
-class GRootHolder;
 
 class GComboBox : public GComponent
 {
@@ -70,7 +69,7 @@ protected:
     void setCurrentState();
     void updateSelectionController();
     void updateDropdownList();
-    void showDropdown();
+    void showDropdown(GRoot* root);
     void renderDropdownList();
 
     GComponent* _dropdown;
@@ -99,8 +98,6 @@ private:
     GController* _buttonController;
     bool _down;
     bool _over;
-
-    GRootHolder* _gRootHolder;
 };
 
 NS_FGUI_END

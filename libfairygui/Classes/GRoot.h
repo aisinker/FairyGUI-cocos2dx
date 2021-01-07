@@ -18,7 +18,7 @@ public:
     GRoot();
     virtual ~GRoot();
 
-    static GRoot* create(cocos2d::Scene* scene);
+    static GRoot* create();
 
     void showWindow(Window* win);
     void hideWindow(Window* win);
@@ -55,7 +55,7 @@ public:
     void showTooltipsWin(GObject* tooltipWin);
     void hideTooltips();
 
-    void playSound(const std::string& url, float volumeScale = 1);
+    static void playSound(const std::string& url, float volumeScale = 1);
     bool isSoundEnabled() const { return _soundEnabled; }
     void setSoundEnabled(bool value);
     float getSoundVolumeScale() const { return _soundVolumeScale; }
@@ -69,7 +69,7 @@ protected:
     virtual void onExit() override;
 
 private:
-    bool initWithScene(cocos2d::Scene* scene);
+    bool init();
     void onWindowSizeChanged();
     void createModalLayer();
     void adjustModalLayer();

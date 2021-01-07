@@ -4,12 +4,10 @@
 #include "cocos2d.h"
 #include "FairyGUIMacros.h"
 #include "GComponent.h"
-#include "GRootHolder.h"
 
 NS_FGUI_BEGIN
 
 class GTextField;
-class GRootHolder;
 
 class GButton : public GComponent
 {
@@ -96,7 +94,6 @@ private:
     bool _downScaled;
     float _downEffectValue;
     bool _changeStateOnClick;
-    GRootHolder* _gRootHolder;
 };
 
 NS_FGUI_END

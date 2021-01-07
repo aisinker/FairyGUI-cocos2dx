@@ -272,11 +272,8 @@ Transition::Transition(GComponent* owner)
     _autoPlayDelay(0),
     _timeScale(1),
     _startTime(0),
-    _endTime(0),
-    _gRootHolder(nullptr)
+    _endTime(0)
 {
-    _gRootHolder = GRootHolder::getGlobalInstance();
-    _gRootHolder->retain();
 }
 
 Transition::~Transition()
@@ -289,8 +286,6 @@ Transition::~Transition()
 
     _playing = false;
     _onComplete = nullptr;
-
-    CC_SAFE_RELEASE_NULL(_gRootHolder);
 }
 
 void Transition::play(PlayCompleteCallback callback)
@@ -1328,7 +1323,7 @@ void Transition::applyValue(TransitionItem* item)
         {
             TValue_Sound* value = (TValue_Sound*)item->value;
             if (!value->sound.empty())
-                UIRoot->playSound(value->sound, value->volume);
+                GRoot::playSound(value->sound, value->volume);
             break;
         }
 

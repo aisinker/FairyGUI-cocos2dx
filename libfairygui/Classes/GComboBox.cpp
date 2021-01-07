@@ -16,18 +16,14 @@ GComboBox::GComboBox()
       _selectionController(nullptr),
       _itemsUpdated(true),
       _selectedIndex(-1),
-      popupDirection(PopupDirection::AUTO),
-      _gRootHolder(nullptr)
+      popupDirection(PopupDirection::AUTO)
 {
-    _gRootHolder = GRootHolder::getGlobalInstance();
-    _gRootHolder->retain();
     visibleItemCount = UIConfig::defaultComboBoxVisibleItemCount;
 }
 
 GComboBox::~GComboBox()
 {
     CC_SAFE_RELEASE(_dropdown);
-    CC_SAFE_RELEASE_NULL(_gRootHolder);
 }
 
 const std::string& GComboBox::getTitle() const
@@ -191,7 +187,7 @@ void GComboBox::updateDropdownList()
     }
 }
 
-void GComboBox::showDropdown()
+void GComboBox::showDropdown(GRoot* root)
 {
     updateDropdownList();
     if (_list->getSelectionMode() == ListSelectionMode::SINGLE)
@@ -199,7 +195,7 @@ void GComboBox::showDropdown()
     _dropdown->setWidth(_size.width);
     _list->ensureBoundsCorrect();
 
-    UIRoot->togglePopup(_dropdown, this, popupDirection);
+    root->togglePopup(_dropdown, this, popupDirection);
     if (_dropdown->getParent() != nullptr)
         setState(GButton::DOWN);
 }
@@ -429,8 +425,14 @@ void GComboBox::onTouchBegin(EventContext* context)
 
     _down = true;
 
-    if (_dropdown != nullptr)
-        showDropdown();
+    GRoot* root = getRoot();
+    if (root != nullptr) {
+        if (_dropdown != nullptr)
+            showDropdown(root);
+    }
+    else {
+        CCLOGERROR("GRoot is nullptr!");
+    }
 
     context->captureTouch();
 }

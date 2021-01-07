@@ -1,6 +1,5 @@
 #include "DragDropManager.h"
 #include "UIObjectFactory.h"
-#include "GRoot.h"
 
 NS_FGUI_BEGIN
 USING_NS_CC;
@@ -8,12 +7,8 @@ USING_NS_CC;
 DragDropManager* DragDropManager::_inst = nullptr;
 
 DragDropManager::DragDropManager() :
-    _agent(nullptr),
-    _gRootHolder(nullptr)
+    _agent(nullptr)
 {
-    _gRootHolder = GRootHolder::getGlobalInstance();
-    _gRootHolder->retain();
-
     _agent = (GLoader*)UIObjectFactory::newObject(ObjectType::LOADER);
     _agent->retain();
     _agent->setTouchable(false);
@@ -29,7 +24,6 @@ DragDropManager::DragDropManager() :
 DragDropManager::~DragDropManager()
 {
     CC_SAFE_RELEASE(_agent);
-    CC_SAFE_RELEASE_NULL(_gRootHolder);
 }
 
 DragDropManager* DragDropManager::getInstance()
@@ -40,25 +34,25 @@ DragDropManager* DragDropManager::getInstance()
     return _inst;
 }
 
-void DragDropManager::startDrag(const std::string & icon, const Value& sourceData, int touchPointID)
+void DragDropManager::startDrag(GRoot* root, const std::string & icon, const Value& sourceData, int touchPointID)
 {
     if (_agent->getParent() != nullptr)
         return;
 
     _sourceData = sourceData;
     _agent->setURL(icon);
-    UIRoot->addChild(_agent);
-    Vec2 pt = UIRoot->globalToLocal(UIRoot->getTouchPosition(touchPointID));
+    root->addChild(_agent);
+    Vec2 pt = root->globalToLocal(root->getTouchPosition(touchPointID));
     _agent->setPosition(pt.x, pt.y);
     _agent->startDrag(touchPointID);
 }
 
-void DragDropManager::cancel()
+void DragDropManager::cancel(GRoot* root)
 {
     if (_agent->getParent() != nullptr)
     {
         _agent->stopDrag();
-        UIRoot->removeChild(_agent);
+        root->removeChild(_agent);
         _sourceData = Value::Null;
     }
 }
@@ -68,9 +62,15 @@ void DragDropManager::onDragEnd(EventContext * context)
     if (_agent->getParent() == nullptr) //cancelled
         return;
 
-    UIRoot->removeChild(_agent);
+    GRoot* root = _agent->getRoot();
+    if (root == nullptr) {
+        CCLOGERROR("GRoot is nullptr!");
+        return;
+    }
 
-    GObject* obj = UIRoot->getTouchTarget();
+    root->removeChild(_agent);
+
+    GObject* obj = root->getTouchTarget();
     while (obj != nullptr)
     {
         if (dynamic_cast<GComponent*>(obj))

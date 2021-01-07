@@ -16,7 +16,6 @@ class ByteBuffer;
 class GRoot;
 class PackageItem;
 class GTreeNode;
-class GRootHolder;
 
 class GObject : public UIEventDispatcher
 {
@@ -245,8 +244,6 @@ private:
     size_t _weakPtrRef;
 
     static GObject* _draggingObject;
-
-    GRootHolder* _gRootHolder;
 
     friend class GComponent;
     friend class GGroup;

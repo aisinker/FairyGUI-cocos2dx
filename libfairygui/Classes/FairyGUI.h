@@ -21,7 +21,6 @@
 #include "GList.h"
 #include "GTree.h"
 #include "GRoot.h"
-#include "GRootHolder.h"
 #include "Window.h"
 #include "PopupMenu.h"
 #include "UIObjectFactory.h"

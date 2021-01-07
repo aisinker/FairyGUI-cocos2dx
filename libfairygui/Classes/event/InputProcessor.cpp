@@ -40,12 +40,8 @@ InputProcessor::InputProcessor(GComponent* owner) :
     _keyModifiers(0),
     _mouseListener(nullptr),
     _touchListener(nullptr),
-    _keyboardListener(nullptr),
-    _gRootHolder(nullptr)
+    _keyboardListener(nullptr)
 {
-    _gRootHolder = GRootHolder::getGlobalInstance();
-    _gRootHolder->retain();
-
     _owner = owner;
     _recentInput._inputProcessor = this;
 
@@ -88,8 +84,6 @@ InputProcessor::~InputProcessor()
 
     for (auto &ti : _touches)
         delete ti;
-
-    CC_SAFE_RELEASE_NULL(_gRootHolder);
 }
 
 cocos2d::Vec2 InputProcessor::getTouchPosition(int touchId)
@@ -350,7 +344,7 @@ bool InputProcessor::onTouchBegan(Touch *touch, Event* /*unusedEvent*/)
     _touchListener->setSwallowTouches(target != _owner);
 
     TouchInfo* ti = getTouch(touch->getID());
-    ti->pos = UIRoot->worldToRoot(pt);
+    ti->pos = _owner->getRoot()->worldToRoot(pt);
     ti->button = EventMouse::MouseButton::BUTTON_LEFT;
     ti->touch = touch;
     setBegin(ti, target);
@@ -381,7 +375,7 @@ void InputProcessor::onTouchMoved(Touch *touch, Event* /*unusedEvent*/)
         target = _owner;
 
     TouchInfo* ti = getTouch(touch->getID());
-    ti->pos = UIRoot->worldToRoot(pt);
+    ti->pos = _owner->getRoot()->worldToRoot(pt);
     ti->button = EventMouse::MouseButton::BUTTON_LEFT;
     ti->touch = touch;
 
@@ -426,7 +420,7 @@ void InputProcessor::onTouchEnded(Touch *touch, Event* /*unusedEvent*/)
         target = _owner;
 
     TouchInfo* ti = getTouch(touch->getID());
-    ti->pos = UIRoot->worldToRoot(pt);
+    ti->pos = _owner->getRoot()->worldToRoot(pt);
     ti->button = EventMouse::MouseButton::BUTTON_LEFT;
     ti->touch = touch;
     setEnd(ti, target);
@@ -542,7 +536,7 @@ void InputProcessor::onMouseDown(cocos2d::EventMouse * event)
     _touchListener->setSwallowTouches(target != _owner);
 
     TouchInfo* ti = getTouch(0);
-    ti->pos = UIRoot->worldToRoot(pt);
+    ti->pos = _owner->getRoot()->worldToRoot(pt);
     ti->button = event->getMouseButton();
     ti->touch = nullptr;
     setBegin(ti, target);
@@ -571,7 +565,7 @@ void InputProcessor::onMouseUp(cocos2d::EventMouse * event)
         target = _owner;
 
     TouchInfo* ti = getTouch(0);
-    ti->pos = UIRoot->worldToRoot(pt);
+    ti->pos = _owner->getRoot()->worldToRoot(pt);
     ti->button = event->getMouseButton();
     ti->touch = nullptr;
     setEnd(ti, target);
@@ -626,7 +620,7 @@ void InputProcessor::onMouseUp(cocos2d::EventMouse * event)
 void InputProcessor::onMouseMove(cocos2d::EventMouse * event)
 {
     TouchInfo* ti = getTouch(0);
-    Vec2 npos = UIRoot->worldToRoot(Vec2(event->getCursorX(), event->getCursorY()));
+    Vec2 npos = _owner->getRoot()->worldToRoot(Vec2(event->getCursorX(), event->getCursorY()));
     if (std::abs(ti->pos.x - npos.x) < 1
         && std::abs(ti->pos.y - npos.y) < 1)
         return;
@@ -637,7 +631,7 @@ void InputProcessor::onMouseMove(cocos2d::EventMouse * event)
     if (!target)
         target = _owner;
 
-    ti->pos = UIRoot->worldToRoot(pt);
+    ti->pos = _owner->getRoot()->worldToRoot(pt);
     ti->touch = nullptr;
 
     updateRecentInput(ti, target);
@@ -681,7 +675,7 @@ void InputProcessor::onMouseScroll(cocos2d::EventMouse * event)
         target = _owner;
 
     TouchInfo* ti = getTouch(0);
-    ti->pos = UIRoot->worldToRoot(pt);
+    ti->pos = _owner->getRoot()->worldToRoot(pt);
     ti->touch = nullptr;
     ti->mouseWheelDelta = MAX(event->getScrollX(), event->getScrollY());
 

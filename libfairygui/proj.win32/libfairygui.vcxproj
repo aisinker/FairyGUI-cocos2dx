@@ -59,7 +59,6 @@
     <ClInclude Include="..\Classes\GProgressBar.h" />
     <ClInclude Include="..\Classes\GRichTextField.h" />
     <ClInclude Include="..\Classes\GRoot.h" />
-    <ClInclude Include="..\Classes\GRootHolder.h" />
     <ClInclude Include="..\Classes\GScrollBar.h" />
     <ClInclude Include="..\Classes\GSlider.h" />
     <ClInclude Include="..\Classes\GTextField.h" />
@@ -139,7 +138,6 @@
     <ClCompile Include="..\Classes\GProgressBar.cpp" />
     <ClCompile Include="..\Classes\GRichTextField.cpp" />
     <ClCompile Include="..\Classes\GRoot.cpp" />
-    <ClCompile Include="..\Classes\GRootHolder.cpp" />
     <ClCompile Include="..\Classes\GScrollBar.cpp" />
     <ClCompile Include="..\Classes\GSlider.cpp" />
     <ClCompile Include="..\Classes\GTextField.cpp" />

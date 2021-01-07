@@ -9,9 +9,9 @@ NS_FGUI_BEGIN
 
 class GObject;
 class GComponent;
+class GRoot;
 class GButton;
 class GList;
-class GRootHolder;
 
 class PopupMenu : public cocos2d::Ref
 {
@@ -37,8 +37,8 @@ public:
     int getItemCount() const;
     GComponent* getContentPane() const { return _contentPane; }
     GList* getList() const { return _list; }
-    void show() { show(nullptr, PopupDirection::AUTO); }
-    void show(GObject* target, PopupDirection dir);
+    void show(GRoot* root) { show(root, nullptr, PopupDirection::AUTO); }
+    void show(GRoot* root, GObject* target, PopupDirection dir);
 
 protected:
     bool init(const std::string& resourceURL);
@@ -49,8 +49,6 @@ protected:
 private:
     void onClickItem(EventContext* context);
     void onEnter(EventContext* context);
-
-    GRootHolder* _gRootHolder;
 };
 
 NS_FGUI_END

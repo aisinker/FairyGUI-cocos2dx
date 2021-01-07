@@ -2,7 +2,6 @@
 #include "GGroup.h"
 #include "GList.h"
 #include "GRoot.h"
-#include "GRootHolder.h"
 #include "UIConfig.h"
 #include "UIPackage.h"
 #include "display/FUISprite.h"
@@ -47,12 +46,8 @@ GObject::GObject() : _scale{1, 1},
                      _data(nullptr),
                      _touchDisabled(false),
                      _alignToBL(false),
-                     _weakPtrRef(0),
-                     _gRootHolder(nullptr)
+                     _weakPtrRef(0)
 {
-    _gRootHolder = GRootHolder::getGlobalInstance();
-    _gRootHolder->retain();
-
     static uint64_t _gInstanceCounter = 1;
     _uid = _gInstanceCounter++;
     std::stringstream ss;
@@ -80,8 +75,6 @@ GObject::~GObject()
 
     if (_weakPtrRef > 0)
         WeakPtr::markDisposed(this);
-
-    CC_SAFE_RELEASE_NULL(_gRootHolder);
 }
 
 bool GObject::init()
@@ -246,7 +239,7 @@ void GObject::center(bool restraint /*= false*/)
     if (_parent != nullptr)
         r = _parent;
     else
-        r = UIRoot;
+        r = getRoot();
 
     setPosition((int)((r->_size.width - _size.width) / 2), (int)((r->_size.height - _size.height) / 2));
     if (restraint)
@@ -258,7 +251,12 @@ void GObject::center(bool restraint /*= false*/)
 
 void GObject::makeFullScreen()
 {
-    setSize(UIRoot->getWidth(), UIRoot->getHeight());
+    GRoot* root = getRoot();
+    if (root == nullptr) {
+        CCLOGERROR("GRoot is nullptr!");
+        return;
+    }
+    setSize(root->getWidth(), root->getHeight());
 }
 
 void GObject::setPivot(float xv, float yv, bool asAnchor)
@@ -468,7 +466,7 @@ Vec2 GObject::localToGlobal(const Vec2& pt)
     }
     pt2.y = _size.height - pt2.y;
     pt2 = _displayObject->convertToWorldSpace(pt2);
-    return UIRoot->worldToRoot(pt2);
+    return getRoot()->worldToRoot(pt2);
 }
 
 cocos2d::Rect GObject::localToGlobal(const cocos2d::Rect& rect)
@@ -485,7 +483,7 @@ cocos2d::Rect GObject::localToGlobal(const cocos2d::Rect& rect)
 
 Vec2 GObject::globalToLocal(const Vec2& pt)
 {
-    Vec2 pt2 = UIRoot->rootToWorld(pt);
+    Vec2 pt2 = getRoot()->rootToWorld(pt);
     pt2 = _displayObject->convertToNodeSpace(pt2);
     pt2.y = _size.height - pt2.y;
     if (_pivotAsAnchor)
@@ -670,7 +668,7 @@ GRoot* GObject::getRoot() const
     if (root != nullptr)
         return root;
     else
-        return UIRoot;
+        return nullptr;
 }
 
 void GObject::removeFromParent()
@@ -937,12 +935,12 @@ void GObject::dragBegin(int touchId)
         tmp->dispatchEvent(UIEventType::DragEnd);
     }
 
-    sGlobalDragStart = UIRoot->getTouchPosition(touchId);
+    sGlobalDragStart = getRoot()->getTouchPosition(touchId);
     sGlobalRect = localToGlobal(Rect(Vec2::ZERO, _size));
 
     _draggingObject = this;
     _dragTesting = true;
-    UIRoot->getInputProcessor()->addTouchMonitor(touchId, this);
+    getRoot()->getInputProcessor()->addTouchMonitor(touchId, this);
 
     addEventListener(UIEventType::TouchMove, CC_CALLBACK_1(GObject::onTouchMove, this), EventTag(this));
     addEventListener(UIEventType::TouchEnd, CC_CALLBACK_1(GObject::onTouchEnd, this), EventTag(this));
@@ -991,7 +989,7 @@ void GObject::onTouchMove(EventContext* context)
 
         if (_dragBounds != nullptr)
         {
-            Rect rect = UIRoot->localToGlobal(*_dragBounds);
+            Rect rect = getRoot()->localToGlobal(*_dragBounds);
             if (xx < rect.origin.x)
                 xx = rect.origin.x;
             else if (xx + sGlobalRect.size.width > rect.getMaxX())

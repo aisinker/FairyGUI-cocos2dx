@@ -14,10 +14,10 @@ bool GRoot::_soundEnabled = true;
 float GRoot::_soundVolumeScale = 1.0f;
 int GRoot::contentScaleLevel = 0;
 
-GRoot* GRoot::create(Scene* scene)
+GRoot* GRoot::create()
 {
     GRoot* pRet = new (std::nothrow) GRoot();
-    if (pRet && pRet->initWithScene(scene))
+    if (pRet && pRet->init())
     {
         pRet->autorelease();
         return pRet;
@@ -59,7 +59,7 @@ void GRoot::showWindow(Window* win)
 
 void GRoot::hideWindow(Window* win)
 {
-    win->hide();
+    win->hide(this);
 }
 
 void GRoot::hideWindowImmediately(Window* win)
@@ -325,7 +325,7 @@ void GRoot::closePopup(GObject* target)
     if (target && target->getParent() != nullptr)
     {
         if (dynamic_cast<Window*>(target))
-            ((Window*)target)->hide();
+            ((Window*)target)->hide(this);
         else
             removeChild(target);
     }
@@ -520,7 +520,7 @@ void GRoot::onExit()
     GComponent::onExit();
 }
 
-bool GRoot::initWithScene(cocos2d::Scene* scene)
+bool GRoot::init()
 {
     if (!GComponent::init())
         return false;

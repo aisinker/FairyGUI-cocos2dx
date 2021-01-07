@@ -270,9 +270,6 @@
     <ClInclude Include="..\Classes\utils\html\HtmlObject.h">
       <Filter>src\utils\html</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GRootHolder.h">
-      <Filter>src</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\GComboBox.cpp">
@@ -502,9 +499,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\utils\html\HtmlObject.cpp">
       <Filter>src\utils\html</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\GRootHolder.cpp">
-      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

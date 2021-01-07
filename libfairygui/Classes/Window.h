@@ -7,8 +7,6 @@
 
 NS_FGUI_BEGIN
 
-class GRootHolder;
-
 class IUISource : public cocos2d::Ref
 {
 public:
@@ -26,11 +24,11 @@ public:
 
     CREATE_FUNC(Window);
 
-    void show();
-    void hide();
-    void hideImmediately();
-    void toggleStatus();
-    void bringToFront();
+    void show(GRoot* root);
+    void hide(GRoot* root);
+    void hideImmediately(GRoot* root);
+    void toggleStatus(GRoot* root);
+    void bringToFront(GRoot* root);
     bool isShowing() const { return _parent != nullptr; }
     bool isTop() const;
     bool isModal() const { return _modal; }
@@ -66,7 +64,7 @@ protected:
     virtual void onShown() {};
     virtual void onHide() {};
     virtual void doShowAnimation();
-    virtual void doHideAnimation();
+    virtual void doHideAnimation(GRoot* root);
 
     virtual void onEnter() override;
     virtual void onExit() override;
@@ -94,7 +92,6 @@ private:
     cocos2d::Vector<IUISource*> _uiSources;
     bool _inited;
     bool _loading;
-    GRootHolder* _gRootHolder;
 };
 
 NS_FGUI_END

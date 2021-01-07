@@ -1,6 +1,5 @@
 #include "Window.h"
 #include "GRoot.h"
-#include "GRootHolder.h"
 #include "UIPackage.h"
 #include "UIConfig.h"
 
@@ -17,12 +16,8 @@ Window::Window() :
     _contentArea(nullptr),
     _modal(false),
     _inited(false),
-    _loading(false),
-    _gRootHolder(nullptr)
+    _loading(false)
 {
-    _gRootHolder->getGlobalInstance();
-    _gRootHolder->retain();
-
     _bringToFontOnClick = UIConfig::bringWindowToFrontOnClick;
 }
 
@@ -33,8 +28,6 @@ Window::~Window()
     CC_SAFE_RELEASE(_closeButton);
     CC_SAFE_RELEASE(_dragArea);
     CC_SAFE_RELEASE(_modalWaitPane);
-
-    CC_SAFE_RELEASE_NULL(_gRootHolder);
 }
 
 void Window::handleInit()
@@ -116,33 +109,33 @@ void Window::setDragArea(GObject * value)
     }
 }
 
-void Window::show()
+void Window::show(GRoot* root)
 {
-    UIRoot->showWindow(this);
+    root->showWindow(this);
 }
 
-void Window::hide()
+void Window::hide(GRoot* root)
 {
     if (isShowing())
-        doHideAnimation();
+        doHideAnimation(root);
 }
 
-void Window::hideImmediately()
+void Window::hideImmediately(GRoot* root)
 {
-    UIRoot->hideWindowImmediately(this);
+    root->hideWindowImmediately(this);
 }
 
-void Window::toggleStatus()
+void Window::toggleStatus(GRoot* root)
 {
     if (isTop())
-        hide();
+        hide(root);
     else
-        show();
+        show(root);
 }
 
-void Window::bringToFront()
+void Window::bringToFront(GRoot* root)
 {
-    UIRoot->bringToFront(this);
+    root->bringToFront(this);
 }
 
 bool Window::isTop() const
@@ -242,14 +235,20 @@ void Window::doShowAnimation()
     onShown();
 }
 
-void Window::doHideAnimation()
+void Window::doHideAnimation(GRoot* root)
 {
-    hideImmediately();
+    hideImmediately(root);
 }
 
 void Window::closeEventHandler(EventContext * context)
 {
-    hide();
+    GRoot* root = getRoot();
+    if (root != nullptr) {
+        hide(root);
+    }
+    else {
+        CCLOGERROR("GRoot is nullptr!");
+    }
 }
 
 void Window::onUILoadComplete()
@@ -286,9 +285,14 @@ void Window::onExit()
 
 void Window::onTouchBegin(EventContext * context)
 {
+    GRoot* root = getRoot();
+    if (root == nullptr) {
+        CCLOGERROR("GRoot is nullptr!");
+        return;
+    }
     if (isShowing() && _bringToFontOnClick)
     {
-        bringToFront();
+        bringToFront(root);
     }
 }
 

@@ -5,13 +5,11 @@
 #include "cocos2d.h"
 #include "UIEventDispatcher.h"
 #include "InputEvent.h"
-#include "GRootHolder.h"
 
 NS_FGUI_BEGIN
 
 class GComponent;
 class TouchInfo;
-class GRootHolder;
 
 class InputProcessor
 {
@@ -74,8 +72,6 @@ private:
     static InputProcessor* _activeProcessor;
     
     friend class UIEventDispatcher;
-
-    GRootHolder* _gRootHolder;
 };
 
 NS_FGUI_END

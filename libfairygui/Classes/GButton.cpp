@@ -28,19 +28,14 @@ GButton::GButton() : _mode(ButtonMode::COMMON),
                      _downEffect(0),
                      _downScaled(false),
                      _downEffectValue(0.8f),
-                     _changeStateOnClick(true),
-                     _gRootHolder(nullptr)
+                     _changeStateOnClick(true)
 {
-    _gRootHolder = GRootHolder::getGlobalInstance();
-    _gRootHolder->retain();
-
     _sound = UIConfig::buttonSound;
     _soundVolumeScale = UIConfig::buttonSoundVolumeScale;
 }
 
 GButton::~GButton()
 {
-    CC_SAFE_RELEASE_NULL(_gRootHolder);
 }
 
 void GButton::setTitle(const std::string& value)
@@ -424,7 +419,7 @@ void GButton::onTouchEnd(EventContext* context)
 void GButton::onClick(EventContext* context)
 {
     if (!_sound.empty())
-        UIRoot->playSound(_sound, _soundVolumeScale);
+        getRoot()->playSound(_sound, _soundVolumeScale);
 
     if (_mode == ButtonMode::CHECK)
     {
